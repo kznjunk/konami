@@ -1,0 +1,2 @@
+# konami
+Secret unlocked.
