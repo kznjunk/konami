@@ -1,10 +1,20 @@
 module.exports = function konami (cb) {
+    let startX
+    let startY
     let currentIndex = 0
-    const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]
+    const konami = [ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65 ]
 
-    document.addEventListener('keyup', listenKonami, false)
+    if (!document || !cb) return
 
-    function listenKonami(e) {
+    return { start, stop }
+
+    function start () {
+        document.addEventListener('keyup', listenKeyboard, false)
+        document.addEventListener('touchstart', listenTouchStart, false)
+        document.addEventListener('touchmove', listenTouchMove, false)
+    }
+
+    function listenKeyboard (e) {
         const keyCode = e.keyCode
         const isKeyCodeValid = keyCode === konami[currentIndex]
 
@@ -12,7 +22,43 @@ module.exports = function konami (cb) {
 
         if (currentIndex === konami.length) {
             cb()
-            document.removeEventListener('keyup', listenKonami, false)
+            stop()
         }
+    }
+
+    function listenTouchStart (e) {
+        startX = e.touches[0].clientX
+        startY = e.touches[0].clientY
+    }
+
+    function listenTouchMove (e) {
+        if (startX === null || startY === null) return
+
+        let keyMove
+        const currentX = e.touches[0].clientX
+        const currentY = e.touches[0].clientY
+        const diffX = startX - currentX
+        const diffY = startY - currentY
+        const isHorizontalSlide = Math.abs(diffX) > Math.abs(diffY)
+
+        if (isHorizontalSlide) {
+            keyMove = diffX > 0 ? 37 : 39
+        } else {
+            keyMove = diffY > 0 ? 38 : 40
+        }
+
+        const isKeyMoveValid = keyMove === konami[currentIndex]
+        isKeyMoveValid ? currentIndex++ : currentIndex = 0
+
+        startX = null
+        startY = null
+
+        e.preventDefault()
+    }
+
+    function stop () {
+        document.removeEventListener('keyup', listenKonami, false)
+        document.removeEventListener('touchstart', listenTouchStart, false)
+        document.removeEventListener('touchmove', listenTouchMove, false)
     }
 }
