@@ -7,7 +7,7 @@ const konami = require('@kznjunk/konami')(showSecret)
 if (konami) konami.start()
 
 function showSecret () {
-	console.log('yay!')
+  console.log('yay!')
 }
 ```
 
@@ -17,7 +17,9 @@ konami.stop()
 ```
 
 With the keyboard:
+
 `↑ ↑ ↓ ↓ ← → ← → B A`
 
 With touch screens:
+
 `↑ ↑ ↓ ↓ ← → ← → *click* *click*`
