@@ -18,7 +18,7 @@ module.exports = function konami (cb) {
     }
 
     function dispatch () {
-        document.removeEventListener('keyup', listenKonami, false)
+        document.removeEventListener('keyup', listenKeyboard, false)
         document.removeEventListener('touchstart', listenTouchStart, false)
         document.removeEventListener('touchmove', listenTouchMove, false)
         document.removeEventListener('click', listenTouchClick, false)
