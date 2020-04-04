@@ -12,11 +12,18 @@ module.exports = function konami (cb) {
         document.addEventListener('keyup', listenKeyboard, false)
         document.addEventListener('touchstart', listenTouchStart, false)
         document.addEventListener('touchmove', listenTouchMove, false)
+        document.addEventListener('click', listenTouchClick, false)
+    }
+
+    function stop () {
+        document.removeEventListener('keyup', listenKonami, false)
+        document.removeEventListener('touchstart', listenTouchStart, false)
+        document.removeEventListener('touchmove', listenTouchMove, false)
+        document.removeEventListener('click', listenTouchClick, false)
     }
 
     function listenKeyboard (e) {
-        const keyCode = e.keyCode
-        const isKeyCodeValid = keyCode === konami[currentIndex]
+        const isKeyCodeValid = e.keyCode === konami[currentIndex]
 
         isKeyCodeValid ? currentIndex++ : currentIndex = 0
 
@@ -56,9 +63,18 @@ module.exports = function konami (cb) {
         e.preventDefault()
     }
 
-    function stop () {
-        document.removeEventListener('keyup', listenKonami, false)
-        document.removeEventListener('touchstart', listenTouchStart, false)
-        document.removeEventListener('touchmove', listenTouchMove, false)
+    function listenTouchClick () {
+        const isKeyCodeValid = currentIndex >= (konami.length - 2)
+
+        if (isKeyCodeValid) {
+            currentIndex++
+
+            if (currentIndex === konami.length) {
+                cb()
+                stop()
+            }
+        } else {
+            currentIndex = 0
+        }
     }
 }
