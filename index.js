@@ -6,7 +6,9 @@ module.exports = function konami (cb) {
 
     if (!document || !cb) return
 
-    return { start, stop }
+    start()
+
+    return { dispatch }
 
     function start () {
         document.addEventListener('keyup', listenKeyboard, false)
@@ -15,7 +17,7 @@ module.exports = function konami (cb) {
         document.addEventListener('click', listenTouchClick, false)
     }
 
-    function stop () {
+    function dispatch () {
         document.removeEventListener('keyup', listenKonami, false)
         document.removeEventListener('touchstart', listenTouchStart, false)
         document.removeEventListener('touchmove', listenTouchMove, false)
@@ -29,7 +31,7 @@ module.exports = function konami (cb) {
 
         if (currentIndex === konami.length) {
             cb()
-            stop()
+            dispatch()
         }
     }
 
