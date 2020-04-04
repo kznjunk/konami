@@ -4,8 +4,6 @@ This should work in this way:
 ```js
 const konami = require('@kznjunk/konami')(showSecret)
 
-if (konami) konami.start()
-
 function showSecret () {
   console.log('yay!')
 }
@@ -13,13 +11,13 @@ function showSecret () {
 
 You can cancel if needed:
 ```js
-konami.stop()
+if (konami) konami.dispatch()
 ```
 
-With the keyboard:
+Combinations are:
 
 `↑ ↑ ↓ ↓ ← → ← → B A`
 
-With touch screens:
+or
 
-`↑ ↑ ↓ ↓ ← → ← → *click* *click*`
+`↑ ↑ ↓ ↓ ← → ← → *screen click* *screen click*`
